@@ -60,7 +60,7 @@ class Profile extends Component {
                     <TouchableOpacity onPress={this.goBack}>
                         <Image source={require('../assets/img/back.png')} style={{ marginTop: 5 }} />
                     </TouchableOpacity>
-                    <Text style={{ textAlign: 'center', color: '#fff', fontSize: 18, fontWeight: 'bold', marginLeft: 25 }}>Profile</Text>
+                    <Text style={{ textAlign: 'center', color: '#fff', fontSize: 18, fontWeight: 'bold', marginLeft: 25 }}>My Profile</Text>
                 </View>
 
                 <View style={styles.conImage}>

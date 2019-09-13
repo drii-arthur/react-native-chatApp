@@ -39,7 +39,7 @@ const createSwitch = createSwitchNavigator({
 },
     {
         initialRouteName: 'authScreen'
-        // initialRouteName: 'ChatRoom'
+
     })
 
 export default AppNavigator = createAppContainer(createSwitch)

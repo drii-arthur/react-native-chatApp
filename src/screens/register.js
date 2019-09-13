@@ -19,7 +19,7 @@ class Register extends React.Component {
         this.setState({ isLoading: true })
         if (this.state.email.length < 4) {
             Alert.alert('Email Invalid')
-        } else if (this.state.password.length < 1) {
+        } else if (this.state.password.length < 4) {
             Alert.alert('please input password more than 2')
         } else if (this.state.username.length < 3) {
             Alert.alert('please input Name more than 3')
@@ -44,7 +44,7 @@ class Register extends React.Component {
         return (
             <ScrollView style={style.scrollContainer}>
                 <View style={style.container}>
-                    <StatusBar backgroundColor='#2ed573' />
+                    <StatusBar backgroundColor='#2ecc71' />
                     <Image source={require('../assets/img/195.jpg')} style={style.icon} />
                     <Text style={{ marginBottom: 20 }}>
                         <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#485460' }}>Welcome to <Text style={{ color: '#2ed573' }}>Cus<Text style={{ color: 'tomato' }}>Chat</Text></Text></Text>

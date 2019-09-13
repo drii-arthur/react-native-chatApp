@@ -49,7 +49,6 @@ class ProfileFriend extends Component {
 
         return (
             <View style={styles.container}>
-
                 <View style={{ flexDirection: 'row', backgroundColor: '#2ed573', paddingVertical: 10, elevation: 5, paddingHorizontal: 20 }}>
                     <TouchableOpacity onPress={this.goBack}>
                         <Image source={require('../assets/img/back.png')} style={{ marginTop: 5 }} />

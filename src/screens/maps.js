@@ -4,22 +4,39 @@ import MapView, { Marker } from 'react-native-maps';
 import geolocation from '@react-native-community/geolocation';
 import firebase from 'firebase';
 import { Auth, Database } from '../Firebase/db'
+import { withNavigation } from 'react-navigation';
+
 
 class Maps extends Component {
     constructor(props) {
         super(props);
-        this.user()
         this.state = {
             mapRegion: null,
             lastLat: null,
             lastLong: null,
-            users: []
+            uid: null,
+            users: [],
+
         }
 
     }
 
     async componentDidMount() {
-        // await this.user()
+        const uid = await AsyncStorage.getItem('uid')
+        this.setState({ uid });
+        this.setState({ refreshing: true });
+        firebase.database().ref('user').on('child_added', (data) => {
+            let person = data.val();
+            person.id = data.key;
+            if (person.id != this.state.uid) {
+                this.setState((prevData) => {
+                    return {
+                        users: [...prevData.users, person]
+                    }
+                })
+                this.setState({ refreshing: false });
+            }
+        })
         this.watchID = geolocation.getCurrentPosition((position) => {
             let region = {
                 latitude: position.coords.latitude,
@@ -29,6 +46,7 @@ class Maps extends Component {
             }
             this.onRegionChange(region, region.latitude, region.longitude);
         }, (error) => console.log(error));
+
     }
 
     onRegionChange(region, lastLat, lastLong) {
@@ -39,20 +57,11 @@ class Maps extends Component {
         });
     }
 
-    user = () => {
-        firebase.database().ref('user/').on('value', (result) => {
-            let data = result.val();
-            if (data !== null) {
-                let users = Object.values(data);
-                this.setState({
-                    users
-                })
-            }
-        });
-    }
     render() {
+        console.warn(this.state.users)
         return (
             <View style={styles.con}>
+                <StatusBar backgroundColor='#2ed573' />
                 <MapView
                     style={styles.map}
                     region={this.state.mapRegion}
@@ -60,31 +69,45 @@ class Maps extends Component {
                     followUserLocation={true}
                     zoomControlEnabled={true}
                     showsCompass={true}
-                    minZoomLevel={0}  // default => 0
+                    minZoomLevel={0}
                     maxZoomLevel={20}
-                // default => 20
-                // onRegionChange={this.onRegionChange.bind(this)}
+
                 >
                     {this.state.users.map((item, index) =>
+
                         <Marker
                             key={index}
+                            title={item.username}
+                            description={item.status}
+                            onCalloutPress={() => { this.props.navigation.navigate('ChatRoom', item) }}
                             coordinate={{
                                 latitude: item.latitude || 0,
                                 longitude: item.longitude || 0
                             }}>
-                            <View style={styles.mapCoor}>
-                                <Image
-                                    source={{ uri: item.image }}
-                                    style={styles.image} />
-                            </View>
+                            {item.status == 'online' ?
+                                <View style={styles.mapCoor}>
+                                    <Image
+                                        source={{ uri: item.image }}
+                                        style={styles.image} />
+
+                                </View>
+                                :
+                                <View style={styles.mapCoorOffline}>
+                                    <Image
+                                        source={{ uri: item.image }}
+                                        style={styles.image} />
+
+                                </View>}
                             <Text style={styles.name}>{item.username}</Text>
-                        </Marker>)}
+                        </Marker>
+
+                    )}
                 </MapView>
             </View>
         );
     }
 }
-export default Maps;
+export default withNavigation(Maps);
 const styles = StyleSheet.create({
     con: {
         flex: 1,
@@ -101,6 +124,15 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderWidth: 2,
         borderColor: '#2ed573',
+        borderRadius: 50,
+        justifyContent: 'center'
+    },
+    mapCoorOffline: {
+        height: 40,
+        width: 40,
+        backgroundColor: 'white',
+        borderWidth: 2,
+        borderColor: 'tomato',
         borderRadius: 50,
         justifyContent: 'center'
     },

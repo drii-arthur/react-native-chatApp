@@ -49,7 +49,7 @@ class Login extends React.Component {
         return (
             <ScrollView style={style.scrollContainer}>
                 <KeyboardAvoidingView behavior='padding' style={style.container} >
-                    <StatusBar backgroundColor='#2ed573' />
+                    <StatusBar backgroundColor='#2ecc71' />
                     <Image source={require('../assets/img/195.jpg')} style={style.icon} />
                     <Text style={{ marginBottom: 20 }}>
                         <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#485460' }}>Welcome back to <Text style={{ color: '#2ed573' }}>Cus<Text style={{ color: 'tomato' }}>Chat</Text></Text></Text>

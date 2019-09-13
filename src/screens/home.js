@@ -35,7 +35,7 @@ class HomeScreen extends React.Component {
     render() {
         return (
             <View style={style.container}>
-                <StatusBar backgroundColor='#2ed573' />
+                <StatusBar backgroundColor='#2ecc71' />
                 <Header name={this.state.name} uid={this.state.uid} />
                 <TabView style={{ backgroundColor: '#fff' }}
                     navigationState={this.state}

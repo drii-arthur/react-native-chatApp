@@ -45,18 +45,20 @@ class Header extends Component {
     render() {
         const name = this.props.name
         return (
-            <View style={{ padding: 10, backgroundColor: '#2ed573', flexDirection: 'row', justifyContent: 'space-between' }}>
+            <View style={{ paddingVertical: 10, paddingHorizontal: 20, backgroundColor: '#2ed573', flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
                     <Text style={{ color: '#2f3542' }}>Cus</Text>
                     <Text style={{ color: 'tomato' }}>Chat</Text>
                 </Text>
                 <Menu
                     ref={this.setMenuRef}
-                    button={<Text onPress={this.showMenu}>
-                        <Image source={require('../assets/img/menu.png')} />
-                    </Text>}
+                    button={<TouchableOpacity onPress={this.showMenu}>
+                        <Image source={require('../assets/img/btn-more.png')} />
+                    </TouchableOpacity>
+
+                    }
                 >
-                    <MenuItem onPress={this.buttonPress} key={1} >{name}</MenuItem>
+                    <MenuItem onPress={this.buttonPress} key={1} >My Profile</MenuItem>
                     <MenuItem key={2} onPress={this.Logout}>Logout</MenuItem>
                 </Menu>
             </View>
